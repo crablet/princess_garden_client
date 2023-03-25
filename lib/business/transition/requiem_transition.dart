@@ -1,60 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:simple_animations/animation_builder/play_animation_builder.dart';
+import 'package:simple_animations/movie_tween/movie_tween.dart';
+import 'package:simple_animations/simple_animations.dart';
 
-class RequiemTransition extends StatefulWidget {
+class RequiemTransition extends StatelessWidget {
   const RequiemTransition({Key? key}) : super(key: key);
 
   @override
-  State<RequiemTransition> createState() => _RequiemTransitionState();
-}
-
-class _RequiemTransitionState extends State<RequiemTransition> {
-  double _opacity = 0.0;
-  bool _showWhiteContainer = true;
-
-  Future<void> _startAnimation() async {
-    await Future.delayed(
-      const Duration(
-        milliseconds: 530,
-      ),
-    );
-    setState(() {
-      _opacity = 1.0;
-    });
-
-    await Future.delayed(
-      const Duration(
-        milliseconds: 5300,
-        seconds: 3,
-      ),
-    );
-    setState(() {
-      _showWhiteContainer = false;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _startAnimation();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        if (_showWhiteContainer)
-          SizedBox(
-            width: double.infinity,
-            height: double.infinity,
-            child: AnimatedOpacity(
-              opacity: _opacity,
-              duration: const Duration(microseconds: 5300),
-              child: Container(
-                color: Colors.white,
-              ),
+    final MovieTween tween = MovieTween()
+      ..scene(
+              begin: const Duration(milliseconds: 0),
+              end: const Duration(milliseconds: 5253))
+          .tween("opacity", Tween(begin: 0.0, end: 1.0))
+      ..scene(
+              begin: const Duration(milliseconds: 5253),
+              end: const Duration(seconds: 2, milliseconds: 5253))
+          .tween("opacity", Tween(begin: 1.0, end: 1.0))
+      ..scene(
+              begin: const Duration(seconds: 2, milliseconds: 5253),
+              end: const Duration(seconds: 2, milliseconds: 5253 + 253))
+          .tween("opacity", Tween(begin: 1.0, end: 0.0));
+
+    return Positioned.fill(
+      child: PlayAnimationBuilder<Movie>(
+        tween: tween,
+        duration: tween.duration,
+        builder: (context, value, child) {
+          return Opacity(
+            opacity: value.get("opacity"),
+            child: Container(
+              color: Colors.white,
             ),
-          ),
-      ],
+          );
+        },
+      ),
     );
   }
 }
