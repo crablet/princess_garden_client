@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:princess_garden_client/base/http_utils.dart';
@@ -6,6 +8,7 @@ import 'package:princess_garden_client/model/v1/last_messages_model.dart';
 class PrincessGardenController extends GetxController {
   final remainingLifespan = 0.obs;
   final lastMessages = <MessageModel>[].obs;
+  late Timer _timer;
 
   static const defaultMagicNumber = 53;
 
@@ -36,5 +39,29 @@ class PrincessGardenController extends GetxController {
       debugPrint(
           "[submitMessage] failed, code = ${result?.code}, message = ${result?.message}");
     }
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchAll();
+    start();
+  }
+
+  @override
+  void onClose() {
+    stop();
+    super.onClose();
+  }
+
+  void start() {
+    _timer = Timer.periodic(
+      const Duration(seconds: defaultMagicNumber),
+      (_) => fetchAll(),
+    );
+  }
+
+  void stop() {
+    _timer.cancel();
   }
 }
