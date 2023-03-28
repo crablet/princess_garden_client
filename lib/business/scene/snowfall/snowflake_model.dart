@@ -4,6 +4,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:princess_garden_client/business/scene/snowfall/snowfall_point.dart';
 import 'package:simple_animations/movie_tween/movie_tween.dart';
+import 'package:supercharged/supercharged.dart';
+import 'package:simple_animations/simple_animations.dart';
 
 class SnowflakeModel {
   SnowflakeModel(this._random) {
@@ -11,22 +13,25 @@ class SnowflakeModel {
   }
 
   static final Map<int, Path> _cachedFlakes = {};
-  late Animatable _tween;
+  late MovieTween tween;
   late double _size;
   final Random _random;
   late Path? _path;
+  late Duration _duration;
+  late Duration _startTime;
 
-  void _restart({Duration time = Duration.zero}) {
+  void _restart() {
     _path = null;
     final startPosition = Offset(-0.2 + 1.4 * _random.nextDouble(), -0.2);
     final endPosition = Offset(-0.2 + 1.4 * _random.nextDouble(), 1.2);
-    final duration = Duration(seconds: 5, milliseconds: _random.nextInt(9999));
 
-    _tween = MovieTween()
-      ..scene(begin: time, end: time + duration, curve: Curves.easeInOutSine)
+    _duration = Duration(seconds: 5, milliseconds: _random.nextInt(9999));
+    _startTime = DateTime.now().duration();
+    tween = MovieTween()
+      ..scene(begin: _startTime, end: _startTime + _duration, curve: Curves.easeInOutSine)
           .tween("x", Tween(begin: startPosition.dx, end: endPosition.dx))
-      ..scene(begin: time, end: time + duration, curve: Curves.easeIn)
-          .tween("y", Tween(begin: endPosition, end: startPosition));
+      ..scene(begin: _startTime, end: _startTime + _duration, curve: Curves.easeIn)
+          .tween("y", Tween(begin: startPosition.dy, end: endPosition.dy));
     _size = 20 + _random.nextDouble() * 99;
 
     _drawPath();
@@ -51,7 +56,7 @@ class SnowflakeModel {
       SnowfallPoint p2 = SnowfallPoint(0, -up);
       SnowfallPoint p3 = SnowfallPoint(0, 0);
       SnowfallPoint p4 = SnowfallPoint(0, 0);
-      double rotate = _random.nextDouble() * pi / 2;
+      double rotate = _random.nextDouble() * pi * 2;
       List<SnowfallPoint> lines = <SnowfallPoint>[p0, p1, p2];
       List<SnowfallPoint> tempLines = <SnowfallPoint>[];
       for (int iterations = 0; iterations < iterationsCount; ++iterations) {
@@ -64,7 +69,7 @@ class SnowflakeModel {
             p1 = lines[loop + 1];
           }
           rotate = atan2(p1.y - p0.y, p1.x - p0.x);
-          p2 = p1 + SnowfallPoint.polarToPoint(sideLength, rotate + pi / 3);
+          p2 = p1 + SnowfallPoint.polarToPoint(sideLength, rotate);
           rotate += pi / 3;
           p3 = p2 + SnowfallPoint.polarToPoint(sideLength, rotate);
           rotate -= 2 * pi / 3;
@@ -86,7 +91,7 @@ class SnowflakeModel {
     }
 
     Matrix4 matrix = Matrix4.identity();
-    matrix.setRotationZ(_random.nextDouble() * pi / 2);
+    matrix.setRotationZ(_random.nextDouble() * pi * 2);
     double scaleTo = _size / sideLength;
     matrix.scale(scaleTo);
     List<double> list = matrix.storage.toList();
@@ -102,5 +107,15 @@ class SnowflakeModel {
     return _path!;
   }
 
-  // todo: maintainRestart
+  double progress() {
+    return ((DateTime.now().duration() - _startTime) / _duration)
+        .clamp(0.0, 1.0)
+        .toDouble();
+  }
+
+  void checkIfSnowflakeNeedsToBeRestarted() {
+    if (progress() == 1.0) {
+      _restart();
+    }
+  }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:princess_garden_client/business/transition/requiem_transition.dart';
+import 'package:princess_garden_client/business/scene/snowfall/snowflakes.dart';
+
+import 'business/scene/snowfall/sky_background.dart';
 
 class AppRootContainer extends StatefulWidget {
   const AppRootContainer({super.key});
@@ -11,16 +13,11 @@ class AppRootContainer extends StatefulWidget {
 class _AppRootContainerState extends State<AppRootContainer> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
       body: Stack(
-        children: [
-          Container(
-            color: Colors.blue,
-            child: const Center(
-              child: Text("Welcome to the princess's garden."),
-            ),
-          ),
-          const RequiemTransition(),
+        children: const [
+          SkyBackground(),
+          Snowflakes()
         ],
       ),
     );

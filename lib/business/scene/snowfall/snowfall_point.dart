@@ -12,20 +12,6 @@ class SnowfallPoint {
     return sqrt(x * x + y * y);
   }
 
-  /// 以插值因子[f]找到当前点和点[p]之间的点，其中插值因子[f]介于0和1之间
-  SnowfallPoint interpolate(SnowfallPoint p, double f) {
-    return SnowfallPoint(p.x + (x - p.x) * f, p.y + (y - p.y) * f);
-  }
-
-  double length() {
-    return sqrt(x * x + y * y);
-  }
-
-  static SnowfallPoint pointsInterpolation(
-      SnowfallPoint p0, SnowfallPoint p1, double f) {
-    return p0.interpolate(p1, f);
-  }
-
   static SnowfallPoint polarToPoint(double l, double r) {
     return SnowfallPoint(l * cos(r), l * sin(r));
   }
