@@ -28,9 +28,15 @@ class SnowflakeModel {
     _duration = Duration(seconds: 5, milliseconds: _random.nextInt(9999));
     _startTime = DateTime.now().duration();
     tween = MovieTween()
-      ..scene(begin: _startTime, end: _startTime + _duration, curve: Curves.easeInOutSine)
+      ..scene(
+              begin: _startTime,
+              end: _startTime + _duration,
+              curve: Curves.easeInOutSine)
           .tween("x", Tween(begin: startPosition.dx, end: endPosition.dx))
-      ..scene(begin: _startTime, end: _startTime + _duration, curve: Curves.easeIn)
+      ..scene(
+              begin: _startTime,
+              end: _startTime + _duration,
+              curve: Curves.easeIn)
           .tween("y", Tween(begin: startPosition.dy, end: endPosition.dy));
     _size = 20 + _random.nextDouble() * 99;
 
@@ -69,7 +75,7 @@ class SnowflakeModel {
             p1 = lines[loop + 1];
           }
           rotate = atan2(p1.y - p0.y, p1.x - p0.x);
-          p2 = p1 + SnowfallPoint.polarToPoint(sideLength, rotate);
+          p2 = p0 + SnowfallPoint.polarToPoint(sideLength, rotate);
           rotate += pi / 3;
           p3 = p2 + SnowfallPoint.polarToPoint(sideLength, rotate);
           rotate -= 2 * pi / 3;
@@ -77,7 +83,7 @@ class SnowflakeModel {
           tempLines.addAll([p0, p2, p3, p4]);
         }
         lines = tempLines;
-        tempLines.clear();
+        tempLines = <SnowfallPoint>[];
       }
       lines.add(p1);
       _path!.moveTo(lines[0].x, lines[0].y);
