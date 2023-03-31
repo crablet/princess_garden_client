@@ -16,8 +16,8 @@ class SnowflakesPainter extends CustomPainter {
     for (var snowflake in snowflakes) {
       final progress = snowflake.progress();
       final Movie animation = snowflake.tween.transform(progress);
-      final position =
-          Offset(animation.get("x") * size.width, animation.get("y") * size.height);
+      final position = Offset(
+          animation.get("x") * size.width, animation.get("y") * size.height);
       canvas.drawPath(snowflake.path.shift(position), p);
     }
   }

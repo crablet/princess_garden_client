@@ -29,14 +29,11 @@ class SnowflakeModel {
     _startTime = DateTime.now().duration();
     tween = MovieTween()
       ..scene(
-              begin: _startTime,
-              end: _startTime + _duration,
+              begin: const Duration(),
+              end: _duration,
               curve: Curves.easeInOutSine)
           .tween("x", Tween(begin: startPosition.dx, end: endPosition.dx))
-      ..scene(
-              begin: _startTime,
-              end: _startTime + _duration,
-              curve: Curves.easeIn)
+      ..scene(begin: const Duration(), end: _duration, curve: Curves.easeIn)
           .tween("y", Tween(begin: startPosition.dy, end: endPosition.dy));
     _size = 20 + _random.nextDouble() * 99;
 

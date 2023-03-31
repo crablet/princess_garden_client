@@ -13,11 +13,12 @@ class AppRootContainer extends StatefulWidget {
 class _AppRootContainerState extends State<AppRootContainer> {
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       body: Stack(
         children: const [
-          SkyBackground(),
-          Snowflakes()
+          Positioned.fill(child: SkyBackground()),
+          // 注意这里一定要有约束，不然CustomPainter拿到的size和width都是0
+          Positioned.fill(child: Snowflakes()),
         ],
       ),
     );
