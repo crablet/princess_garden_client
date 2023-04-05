@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:princess_garden_client/business/scene/the_eye_of_the_deep_sea/the_eye_of_the_deep_sea.dart';
+import 'package:princess_garden_client/business/scene/starlight/starlight.dart';
 
 import 'business/scene/snowfall/sky_background.dart';
 
@@ -18,7 +18,7 @@ class _AppRootContainerState extends State<AppRootContainer> {
         children: const [
           Positioned.fill(child: SkyBackground()),
           // 注意这里一定要有约束，不然CustomPainter拿到的size和width都是0
-          Positioned.fill(child: TheEyeOfDeepSea()),
+          Positioned.fill(child: StarLight()),
         ],
       ),
     );
