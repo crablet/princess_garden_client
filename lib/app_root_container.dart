@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:princess_garden_client/business/scene/dizzy_rotation/dizzy_rotation.dart';
+import 'package:princess_garden_client/business/scene/atom/atom.dart';
 
 import 'business/scene/snowfall/sky_background.dart';
 
@@ -18,7 +18,7 @@ class _AppRootContainerState extends State<AppRootContainer> {
         children: const [
           Positioned.fill(child: SkyBackground()),
           // 注意这里一定要有约束，不然CustomPainter拿到的size和width都是0
-          Positioned.fill(child: DizzyRotation()),
+          Positioned.fill(child: Atom()),
         ],
       ),
     );
