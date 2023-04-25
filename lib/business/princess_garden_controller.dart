@@ -10,8 +10,6 @@ class PrincessGardenController extends GetxController {
   final lastMessages = <MessageModel>[].obs;
   late Timer _timer;
 
-  static const defaultMagicNumber = 53;
-
   Future<void> fetchRemainingLifespan() async {
     final result = await HttpUtils.getRemainingLifespan();
     if (result != null) {
@@ -28,7 +26,7 @@ class PrincessGardenController extends GetxController {
 
   Future<void> fetchAll() async {
     await fetchRemainingLifespan();
-    await fetchLastMessages(defaultMagicNumber);
+    await fetchLastMessages(53);
   }
 
   Future<void> submitMessage(String? author, String content) async {
@@ -56,7 +54,7 @@ class PrincessGardenController extends GetxController {
 
   void start() {
     _timer = Timer.periodic(
-      const Duration(seconds: defaultMagicNumber),
+      const Duration(seconds: 53),
       (_) => fetchAll(),
     );
   }

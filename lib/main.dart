@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:princess_garden_client/app_root_container.dart';
+import 'package:princess_garden_client/base/app.dart';
 
 void main() {
+  App.init();
+
   runApp(const MyApp());
 }
 
