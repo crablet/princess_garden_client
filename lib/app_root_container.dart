@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:princess_garden_client/business/scene/atom/atom.dart';
+import 'package:princess_garden_client/business/scene/game_of_life/game_of_life.dart';
 import 'package:princess_garden_client/business/scene/snowfall/snowflakes.dart';
 import 'package:princess_garden_client/business/scene/starlight/starlight.dart';
 import 'package:princess_garden_client/business/scene/the_eye_of_the_deep_sea/the_eye_of_the_deep_sea.dart';
@@ -47,6 +48,10 @@ class _AppRootContainerState extends State<AppRootContainer> {
       ),
       BackgroundWidget(
         widget: const TheEyeOfDeepSea(),
+        duration: const Duration(milliseconds: 5300),
+      ),
+      BackgroundWidget(
+        widget: const GameOfLife(),
         duration: const Duration(milliseconds: 5300),
       ),
     ];
